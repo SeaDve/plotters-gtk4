@@ -104,28 +104,21 @@ impl<'a> DrawingBackend for SnapshotBackend<'a> {
         style: &S,
         fill: bool,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
+        let bounds = Rect::new(
+            upper_left.0 as f32,
+            upper_left.1 as f32,
+            (bottom_right.0 - upper_left.0) as f32,
+            (bottom_right.1 - upper_left.1) as f32,
+        );
         if fill {
-            self.snapshot.append_color(
-                &style.color().to_rgba(),
-                &Rect::new(
-                    upper_left.0 as f32,
-                    upper_left.1 as f32,
-                    (bottom_right.0 - upper_left.0) as f32,
-                    (bottom_right.1 - upper_left.1) as f32,
-                ),
-            );
-        } else {
-            let path_builder = gsk::PathBuilder::new();
-            path_builder.move_to(upper_left.0 as f32, upper_left.1 as f32);
-            path_builder.line_to(bottom_right.0 as f32, upper_left.1 as f32);
-            path_builder.line_to(bottom_right.0 as f32, bottom_right.1 as f32);
-            path_builder.line_to(upper_left.0 as f32, bottom_right.1 as f32);
-            path_builder.close();
-            let path = path_builder.to_path();
-
-            let stroke = gsk::Stroke::new(style.stroke_width() as f32);
             self.snapshot
-                .append_stroke(&path, &stroke, &style.color().to_rgba());
+                .append_color(&style.color().to_rgba(), &bounds);
+        } else {
+            self.snapshot.append_border(
+                &gsk::RoundedRect::from_rect(bounds, 0.0),
+                &[style.stroke_width() as f32; 4],
+                &[style.color().to_rgba(); 4],
+            );
         }
 
         Ok(())

@@ -165,6 +165,7 @@ impl<'a> DrawingBackend for SnapshotBackend<'a> {
                 path_builder.line_to(x as f32, y as f32);
             }
 
+            path_builder.close();
             let path = path_builder.to_path();
 
             self.snapshot

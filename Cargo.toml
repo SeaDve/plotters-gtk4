@@ -1,0 +1,9 @@
+[package]
+name = "plotters-gtk4"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gtk = { version = "0.7", package = "gtk4", features = ["v4_14"] }
+pangocairo = "0.18"
+plotters-backend = "0.3"

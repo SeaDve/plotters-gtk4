@@ -6,8 +6,8 @@ use gtk::{
     gsk, pango,
     prelude::*,
 };
-use plotters_backend::text_anchor::{HPos, VPos};
 use plotters_backend::{
+    text_anchor::{HPos, VPos},
     BackendColor, BackendCoord, BackendStyle, BackendTextStyle, DrawingBackend, DrawingErrorKind,
     FontStyle, FontTransform,
 };
@@ -27,7 +27,8 @@ impl<'a> SnapshotBackend<'a> {
     /// Creates a new drawing backend backed with `GtkSnapshot` with
     /// the given width and height.
     pub fn new(snapshot: &'a gtk::Snapshot, (width, height): (u32, u32)) -> Self {
-        let context = pangocairo::FontMap::default().create_context();
+        let font_map = pangocairo::FontMap::default();
+        let context = font_map.create_context();
         let layout = pango::Layout::new(&context);
 
         Self {
@@ -222,8 +223,8 @@ impl<'a> DrawingBackend for SnapshotBackend<'a> {
         let (_, extents) = self.layout.pixel_extents();
         let dx = match style.anchor().h_pos {
             HPos::Left => 0.0,
-            HPos::Right => -extents.width() as f32,
             HPos::Center => -extents.width() as f32 / 2.0,
+            HPos::Right => -extents.width() as f32,
         };
         let dy = match style.anchor().v_pos {
             VPos::Top => extents.height() as f32,

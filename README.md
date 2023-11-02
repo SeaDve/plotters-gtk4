@@ -7,4 +7,4 @@
 
 Plotters GTK4 Backend
 
-
+This backend allows Plotters to operate with GTK4 drawing APIs.

@@ -14,6 +14,7 @@ use plotters_backend::{
 
 const FILL_RULE: gsk::FillRule = gsk::FillRule::EvenOdd;
 
+/// Backend that draws to a `GtkSnapshot`.
 #[derive(Debug)]
 pub struct SnapshotBackend<'a> {
     snapshot: &'a gtk::Snapshot,
@@ -23,6 +24,8 @@ pub struct SnapshotBackend<'a> {
 }
 
 impl<'a> SnapshotBackend<'a> {
+    /// Creates a new drawing backend backed with `GtkSnapshot` with
+    /// the given width and height.
     pub fn new(snapshot: &'a gtk::Snapshot, (width, height): (u32, u32)) -> Self {
         let context = pangocairo::FontMap::default().create_context();
         let layout = pango::Layout::new(&context);

@@ -12,7 +12,7 @@ use plotters_backend::{
     FontStyle, FontTransform,
 };
 
-const FILL_RULE: gsk::FillRule = gsk::FillRule::EvenOdd;
+const FILL_RULE: gsk::FillRule = gsk::FillRule::Winding;
 
 /// Backend that draws to a `GtkSnapshot`.
 #[derive(Debug)]

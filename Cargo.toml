@@ -1,6 +1,13 @@
 [package]
 name = "plotters-gtk4"
 version = "0.1.0"
+description = "Plotters GTK4 Backend"
+homepage = "https://github.com/SeaDve/plotters-gtk4"
+repository = "https://github.com/SeaDve/plotters-gtk4"
+documentation = "https://docs.rs/plotters-gtk4"
+authors = ["Dave Patrick Caberto"]
+readme = "README.md"
+license = "MIT"
 edition = "2021"
 
 [dependencies]

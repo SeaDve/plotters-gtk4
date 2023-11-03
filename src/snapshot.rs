@@ -19,14 +19,13 @@ const FILL_RULE: gsk::FillRule = gsk::FillRule::Winding;
 pub struct SnapshotBackend<'a> {
     snapshot: &'a gtk::Snapshot,
     layout: pango::Layout,
-    width: u32,
-    height: u32,
+    size: (u32, u32),
 }
 
 impl<'a> SnapshotBackend<'a> {
     /// Creates a new drawing backend backed with `GtkSnapshot` with
     /// the given width and height.
-    pub fn new(snapshot: &'a gtk::Snapshot, (width, height): (u32, u32)) -> Self {
+    pub fn new(snapshot: &'a gtk::Snapshot, (w, h): (u32, u32)) -> Self {
         let font_map = pangocairo::FontMap::default();
         let context = font_map.create_context();
         let layout = pango::Layout::new(&context);
@@ -34,8 +33,7 @@ impl<'a> SnapshotBackend<'a> {
         Self {
             snapshot,
             layout,
-            width,
-            height,
+            size: (w, h),
         }
     }
 
@@ -57,7 +55,7 @@ impl<'a> DrawingBackend for SnapshotBackend<'a> {
     type ErrorType = Infallible;
 
     fn get_size(&self) -> (u32, u32) {
-        (self.width, self.height)
+        self.size
     }
 
     fn ensure_prepared(&mut self) -> Result<(), DrawingErrorKind<Self::ErrorType>> {

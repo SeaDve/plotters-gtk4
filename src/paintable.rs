@@ -73,6 +73,7 @@ mod imp {
 }
 
 glib::wrapper! {
+    /// A paintable to draw on in [`PaintableBackend`].
     pub struct Paintable(ObjectSubclass<imp::Paintable>)
         @implements gdk::Paintable;
 }
@@ -86,13 +87,13 @@ impl Paintable {
             .build()
     }
 
-    /// The size of the paintable.
+    /// Returns the size of the paintable.
     pub fn size(&self) -> (u32, u32) {
         let imp = self.imp();
         (*imp.width.get().unwrap(), *imp.height.get().unwrap())
     }
 
-    /// Clear the contents of the paintable.
+    /// Clears the contents of the paintable.
     pub fn clear(&self) {
         self.set_node(None);
     }

@@ -457,7 +457,7 @@
     }
 }
 
-<span class="doccomment">/// Backend that draws to an object that implements `gdk::Paintable`.
+<span class="doccomment">/// Backend that draws to an object that implements [`gdk::Paintable`].
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>PaintableBackend&lt;<span class="lifetime">&#39;a</span>&gt; {
     snapshot: <span class="prelude-ty">Option</span>&lt;gtk::Snapshot&gt;,
@@ -468,7 +468,7 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PaintableBackend&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="doccomment">/// Creates a new drawing backend backed with an object that implements
-    /// `gdk::Paintable`.
+    /// [`gdk::Paintable`].
     </span><span class="kw">pub fn </span>new(paintable: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Paintable) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>font_map = pangocairo::FontMap::default();
         <span class="kw">let </span>context = font_map.create_context();

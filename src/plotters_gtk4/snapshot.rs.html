@@ -298,7 +298,7 @@
 
 <span class="kw">const </span>FILL_RULE: gsk::FillRule = gsk::FillRule::Winding;
 
-<span class="doccomment">/// Backend that draws to a `GtkSnapshot`.
+<span class="doccomment">/// Backend that draws to a [`gtk::Snapshot`].
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>SnapshotBackend&lt;<span class="lifetime">&#39;a</span>&gt; {
     snapshot: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>gtk::Snapshot,
@@ -307,7 +307,7 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; SnapshotBackend&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// Creates a new drawing backend backed with `GtkSnapshot` with
+    <span class="doccomment">/// Creates a new drawing backend backed with [`gtk::Snapshot`] with
     /// the given width and height.
     </span><span class="kw">pub fn </span>new(snapshot: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>gtk::Snapshot, (w, h): (u32, u32)) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>font_map = pangocairo::FontMap::default();

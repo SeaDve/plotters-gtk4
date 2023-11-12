@@ -10,16 +10,14 @@ use crate::snapshot::SnapshotBackend;
 mod imp {
     use std::cell::{OnceCell, RefCell};
 
+    use gtk::glib::once_cell::sync::Lazy;
+
     use super::*;
 
-    #[derive(Debug, Default, glib::Properties)]
-    #[properties(wrapper_type = super::Paintable)]
+    #[derive(Debug, Default)]
     pub struct Paintable {
-        #[property(get, set, construct_only)]
         pub(super) width: OnceCell<u32>,
-        #[property(get, set, construct_only)]
         pub(super) height: OnceCell<u32>,
-
         pub(super) node: RefCell<Option<gsk::RenderNode>>,
     }
 
@@ -30,8 +28,44 @@ mod imp {
         type Interfaces = (gdk::Paintable,);
     }
 
-    #[glib::derived_properties]
-    impl ObjectImpl for Paintable {}
+    impl ObjectImpl for Paintable {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+                vec![
+                    glib::ParamSpecUInt::builder("width")
+                        .construct_only()
+                        .build(),
+                    glib::ParamSpecUInt::builder("height")
+                        .construct_only()
+                        .build(),
+                ]
+            });
+
+            PROPERTIES.as_ref()
+        }
+
+        fn set_property(&self, id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            match pspec.name() {
+                "width" => {
+                    let width = value.get().unwrap();
+                    self.width.set(width).unwrap();
+                }
+                "height" => {
+                    let height = value.get().unwrap();
+                    self.height.set(height).unwrap();
+                }
+                _ => unimplemented!(),
+            }
+        }
+
+        fn property(&self, id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            match pspec.name() {
+                "width" => self.obj().width().into(),
+                "height" => self.obj().height().into(),
+                _ => unimplemented!(),
+            }
+        }
+    }
 
     impl PaintableImpl for Paintable {
         fn snapshot(&self, snapshot: &gdk::Snapshot, width: f64, height: f64) {
@@ -63,17 +97,19 @@ mod imp {
         }
 
         fn intrinsic_width(&self) -> i32 {
-            *self.width.get().unwrap() as i32
+            self.obj().width() as i32
         }
 
         fn intrinsic_height(&self) -> i32 {
-            *self.height.get().unwrap() as i32
+            self.obj().height() as i32
         }
     }
 }
 
 glib::wrapper! {
     /// A paintable to draw on in [`PaintableBackend`].
+    ///
+    /// This can be used on GTK UI files using its type name `PlottersGtk4Paintable`.
     pub struct Paintable(ObjectSubclass<imp::Paintable>)
         @implements gdk::Paintable;
 }
@@ -87,10 +123,19 @@ impl Paintable {
             .build()
     }
 
-    /// Returns the size of the paintable.
+    /// Returns the width of the paintable.
+    pub fn width(&self) -> u32 {
+        *self.imp().width.get().unwrap()
+    }
+
+    /// Returns the height of the paintable.
+    pub fn height(&self) -> u32 {
+        *self.imp().height.get().unwrap()
+    }
+
+    /// Returns the width and height of the paintable.
     pub fn size(&self) -> (u32, u32) {
-        let imp = self.imp();
-        (*imp.width.get().unwrap(), *imp.height.get().unwrap())
+        (self.width(), self.height())
     }
 
     /// Clears the contents of the paintable.

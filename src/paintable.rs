@@ -33,9 +33,11 @@ mod imp {
             static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
                 vec![
                     glib::ParamSpecUInt::builder("width")
+                        .maximum(i32::MAX as u32)
                         .construct_only()
                         .build(),
                     glib::ParamSpecUInt::builder("height")
+                        .maximum(i32::MAX as u32)
                         .construct_only()
                         .build(),
                 ]

@@ -162,7 +162,7 @@ pub struct PaintableBackend<'a> {
 
 impl<'a> PaintableBackend<'a> {
     /// Creates a new drawing backend backed with an object that implements
-    /// `gdk::Paintable` with the given width and height.
+    /// `gdk::Paintable`.
     pub fn new(paintable: &'a Paintable) -> Self {
         let font_map = pangocairo::FontMap::default();
         let context = font_map.create_context();

@@ -257,6 +257,53 @@
 <a href="#257" id="257">257</a>
 <a href="#258" id="258">258</a>
 <a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::Infallible;
 
 <span class="kw">use </span>gtk::{gdk, glib, graphene::Rect, gsk, pango, prelude::<span class="kw-2">*</span>, subclass::prelude::<span class="kw-2">*</span>};
@@ -269,16 +316,14 @@
 <span class="kw">mod </span>imp {
     <span class="kw">use </span>std::cell::{OnceCell, RefCell};
 
+    <span class="kw">use </span>gtk::glib::once_cell::sync::Lazy;
+
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attr">#[derive(Debug, Default, glib::Properties)]
-    #[properties(wrapper_type = <span class="kw">super</span>::Paintable)]
+    <span class="attr">#[derive(Debug, Default)]
     </span><span class="kw">pub struct </span>Paintable {
-        <span class="attr">#[property(get, set, construct_only)]
-        </span><span class="kw">pub</span>(<span class="kw">super</span>) width: OnceCell&lt;u32&gt;,
-        <span class="attr">#[property(get, set, construct_only)]
-        </span><span class="kw">pub</span>(<span class="kw">super</span>) height: OnceCell&lt;u32&gt;,
-
+        <span class="kw">pub</span>(<span class="kw">super</span>) width: OnceCell&lt;u32&gt;,
+        <span class="kw">pub</span>(<span class="kw">super</span>) height: OnceCell&lt;u32&gt;,
         <span class="kw">pub</span>(<span class="kw">super</span>) node: RefCell&lt;<span class="prelude-ty">Option</span>&lt;gsk::RenderNode&gt;&gt;,
     }
 
@@ -289,8 +334,46 @@
         <span class="kw">type </span>Interfaces = (gdk::Paintable,);
     }
 
-    <span class="attr">#[glib::derived_properties]
-    </span><span class="kw">impl </span>ObjectImpl <span class="kw">for </span>Paintable {}
+    <span class="kw">impl </span>ObjectImpl <span class="kw">for </span>Paintable {
+        <span class="kw">fn </span>properties() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[glib::ParamSpec] {
+            <span class="kw">static </span>PROPERTIES: Lazy&lt;Vec&lt;glib::ParamSpec&gt;&gt; = Lazy::new(|| {
+                <span class="macro">vec!</span>[
+                    glib::ParamSpecUInt::builder(<span class="string">&quot;width&quot;</span>)
+                        .maximum(i32::MAX <span class="kw">as </span>u32)
+                        .construct_only()
+                        .build(),
+                    glib::ParamSpecUInt::builder(<span class="string">&quot;height&quot;</span>)
+                        .maximum(i32::MAX <span class="kw">as </span>u32)
+                        .construct_only()
+                        .build(),
+                ]
+            });
+
+            PROPERTIES.as_ref()
+        }
+
+        <span class="kw">fn </span>set_property(<span class="kw-2">&amp;</span><span class="self">self</span>, _id: usize, value: <span class="kw-2">&amp;</span>glib::Value, pspec: <span class="kw-2">&amp;</span>glib::ParamSpec) {
+            <span class="kw">match </span>pspec.name() {
+                <span class="string">&quot;width&quot; </span>=&gt; {
+                    <span class="kw">let </span>width = value.get().unwrap();
+                    <span class="self">self</span>.width.set(width).unwrap();
+                }
+                <span class="string">&quot;height&quot; </span>=&gt; {
+                    <span class="kw">let </span>height = value.get().unwrap();
+                    <span class="self">self</span>.height.set(height).unwrap();
+                }
+                <span class="kw">_ </span>=&gt; <span class="macro">unimplemented!</span>(),
+            }
+        }
+
+        <span class="kw">fn </span>property(<span class="kw-2">&amp;</span><span class="self">self</span>, _id: usize, pspec: <span class="kw-2">&amp;</span>glib::ParamSpec) -&gt; glib::Value {
+            <span class="kw">match </span>pspec.name() {
+                <span class="string">&quot;width&quot; </span>=&gt; <span class="self">self</span>.obj().width().into(),
+                <span class="string">&quot;height&quot; </span>=&gt; <span class="self">self</span>.obj().height().into(),
+                <span class="kw">_ </span>=&gt; <span class="macro">unimplemented!</span>(),
+            }
+        }
+    }
 
     <span class="kw">impl </span>PaintableImpl <span class="kw">for </span>Paintable {
         <span class="kw">fn </span>snapshot(<span class="kw-2">&amp;</span><span class="self">self</span>, snapshot: <span class="kw-2">&amp;</span>gdk::Snapshot, width: f64, height: f64) {
@@ -322,17 +405,19 @@
         }
 
         <span class="kw">fn </span>intrinsic_width(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
-            <span class="kw-2">*</span><span class="self">self</span>.width.get().unwrap() <span class="kw">as </span>i32
+            <span class="self">self</span>.obj().width() <span class="kw">as </span>i32
         }
 
         <span class="kw">fn </span>intrinsic_height(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
-            <span class="kw-2">*</span><span class="self">self</span>.height.get().unwrap() <span class="kw">as </span>i32
+            <span class="self">self</span>.obj().height() <span class="kw">as </span>i32
         }
     }
 }
 
 <span class="macro">glib::wrapper! </span>{
     <span class="doccomment">/// A paintable to draw on in [`PaintableBackend`].
+    ///
+    /// This can be used on GTK UI files using its type name `PlottersGtk4Paintable`.
     </span><span class="kw">pub struct </span>Paintable(ObjectSubclass&lt;imp::Paintable&gt;)
         @implements gdk::Paintable;
 }
@@ -346,10 +431,19 @@
             .build()
     }
 
-    <span class="doccomment">/// Returns the size of the paintable.
+    <span class="doccomment">/// Returns the width of the paintable.
+    </span><span class="kw">pub fn </span>width(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="kw-2">*</span><span class="self">self</span>.imp().width.get().unwrap()
+    }
+
+    <span class="doccomment">/// Returns the height of the paintable.
+    </span><span class="kw">pub fn </span>height(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="kw-2">*</span><span class="self">self</span>.imp().height.get().unwrap()
+    }
+
+    <span class="doccomment">/// Returns the width and height of the paintable.
     </span><span class="kw">pub fn </span>size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u32, u32) {
-        <span class="kw">let </span>imp = <span class="self">self</span>.imp();
-        (<span class="kw-2">*</span>imp.width.get().unwrap(), <span class="kw-2">*</span>imp.height.get().unwrap())
+        (<span class="self">self</span>.width(), <span class="self">self</span>.height())
     }
 
     <span class="doccomment">/// Clears the contents of the paintable.
@@ -363,7 +457,7 @@
     }
 }
 
-<span class="doccomment">/// A drawing backend backed with an object that implements `gdk::Paintable`.
+<span class="doccomment">/// Backend that draws to an object that implements `gdk::Paintable`.
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>PaintableBackend&lt;<span class="lifetime">&#39;a</span>&gt; {
     snapshot: <span class="prelude-ty">Option</span>&lt;gtk::Snapshot&gt;,

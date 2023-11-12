@@ -42,6 +42,8 @@ jobs:
   clippy:
     name: Clippy
     runs-on: ubuntu-22.04
+    container:
+      image: ghcr.io/gtk-rs/gtk4-rs/gtk4:latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
@@ -58,6 +60,8 @@ jobs:
   test:
     name: Test Suite
     runs-on: ubuntu-22.04
+    container:
+      image: ghcr.io/gtk-rs/gtk4-rs/gtk4:latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1

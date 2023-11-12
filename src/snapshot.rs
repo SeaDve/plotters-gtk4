@@ -14,7 +14,7 @@ use plotters_backend::{
 
 const FILL_RULE: gsk::FillRule = gsk::FillRule::Winding;
 
-/// Backend that draws to a `GtkSnapshot`.
+/// Backend that draws to a [`gtk::Snapshot`].
 #[derive(Debug)]
 pub struct SnapshotBackend<'a> {
     snapshot: &'a gtk::Snapshot,
@@ -23,7 +23,7 @@ pub struct SnapshotBackend<'a> {
 }
 
 impl<'a> SnapshotBackend<'a> {
-    /// Creates a new drawing backend backed with `GtkSnapshot` with
+    /// Creates a new drawing backend backed with [`gtk::Snapshot`] with
     /// the given width and height.
     pub fn new(snapshot: &'a gtk::Snapshot, (w, h): (u32, u32)) -> Self {
         let font_map = pangocairo::FontMap::default();

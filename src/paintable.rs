@@ -151,7 +151,7 @@ impl Paintable {
     }
 }
 
-/// Backend that draws to an object that implements `gdk::Paintable`.
+/// Backend that draws to an object that implements [`gdk::Paintable`].
 #[derive(Debug)]
 pub struct PaintableBackend<'a> {
     snapshot: Option<gtk::Snapshot>,
@@ -162,7 +162,7 @@ pub struct PaintableBackend<'a> {
 
 impl<'a> PaintableBackend<'a> {
     /// Creates a new drawing backend backed with an object that implements
-    /// `gdk::Paintable`.
+    /// [`gdk::Paintable`].
     pub fn new(paintable: &'a Paintable) -> Self {
         let font_map = pangocairo::FontMap::default();
         let context = font_map.create_context();

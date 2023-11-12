@@ -92,6 +92,11 @@ impl Paintable {
         (*imp.width.get().unwrap(), *imp.height.get().unwrap())
     }
 
+    /// Clear the contents of the paintable.
+    pub fn clear(&self) {
+        self.set_node(None);
+    }
+
     fn set_node(&self, node: Option<gsk::RenderNode>) {
         self.imp().node.replace(node);
         self.invalidate_contents();

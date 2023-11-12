@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["plotters_gtk4"];

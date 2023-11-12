@@ -2,6 +2,10 @@
 #![deny(rustdoc::broken_intra_doc_links)]
 #![doc = include_str!("../README.md")]
 
+mod paintable;
 mod snapshot;
 
-pub use self::snapshot::SnapshotBackend;
+pub use self::{
+    paintable::{Paintable, PaintableBackend},
+    snapshot::SnapshotBackend,
+};

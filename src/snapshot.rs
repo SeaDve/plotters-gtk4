@@ -29,11 +29,19 @@ impl<'a> SnapshotBackend<'a> {
         let font_map = pangocairo::FontMap::default();
         let context = font_map.create_context();
         let layout = pango::Layout::new(&context);
+        Self::from_parts(snapshot, layout, (w, h))
+    }
 
+    #[inline]
+    pub(crate) fn from_parts(
+        snapshot: &'a gtk::Snapshot,
+        layout: pango::Layout,
+        size: (u32, u32),
+    ) -> Self {
         Self {
             snapshot,
             layout,
-            size: (w, h),
+            size,
         }
     }
 

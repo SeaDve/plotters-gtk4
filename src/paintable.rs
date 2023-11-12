@@ -143,6 +143,7 @@ impl Drop for PaintableBackend<'_> {
 impl DrawingBackend for PaintableBackend<'_> {
     type ErrorType = Infallible;
 
+    #[inline]
     fn get_size(&self) -> (u32, u32) {
         self.size
     }
@@ -161,6 +162,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         Ok(())
     }
 
+    #[inline]
     fn draw_pixel(
         &mut self,
         point: BackendCoord,
@@ -169,6 +171,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         self.inner().draw_pixel(point, color)
     }
 
+    #[inline]
     fn draw_line<S: BackendStyle>(
         &mut self,
         from: BackendCoord,
@@ -178,6 +181,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         self.inner().draw_line(from, to, style)
     }
 
+    #[inline]
     fn draw_rect<S: BackendStyle>(
         &mut self,
         upper_left: BackendCoord,
@@ -189,6 +193,7 @@ impl DrawingBackend for PaintableBackend<'_> {
             .draw_rect(upper_left, bottom_right, style, fill)
     }
 
+    #[inline]
     fn draw_path<S: BackendStyle, I: IntoIterator<Item = BackendCoord>>(
         &mut self,
         raw_path: I,
@@ -197,6 +202,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         self.inner().draw_path(raw_path, style)
     }
 
+    #[inline]
     fn fill_polygon<S: BackendStyle, I: IntoIterator<Item = BackendCoord>>(
         &mut self,
         vert: I,
@@ -205,6 +211,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         self.inner().fill_polygon(vert, style)
     }
 
+    #[inline]
     fn draw_circle<S: BackendStyle>(
         &mut self,
         center: BackendCoord,
@@ -215,6 +222,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         self.inner().draw_circle(center, radius, style, fill)
     }
 
+    #[inline]
     fn estimate_text_size<TStyle: BackendTextStyle>(
         &self,
         text: &str,
@@ -223,6 +231,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         self.inner().estimate_text_size(text, style)
     }
 
+    #[inline]
     fn draw_text<TStyle: BackendTextStyle>(
         &mut self,
         text: &str,
@@ -232,6 +241,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         self.inner().draw_text(text, style, pos)
     }
 
+    #[inline]
     fn blit_bitmap(
         &mut self,
         pos: BackendCoord,

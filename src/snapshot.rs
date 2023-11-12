@@ -62,6 +62,7 @@ impl<'a> SnapshotBackend<'a> {
 impl<'a> DrawingBackend for SnapshotBackend<'a> {
     type ErrorType = Infallible;
 
+    #[inline]
     fn get_size(&self) -> (u32, u32) {
         self.size
     }

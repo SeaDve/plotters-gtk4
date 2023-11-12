@@ -104,7 +104,7 @@ impl Paintable {
     }
 }
 
-/// A drawing backend backed with an object that implements `gdk::Paintable`.
+/// Backend that draws to an object that implements `gdk::Paintable`.
 #[derive(Debug)]
 pub struct PaintableBackend<'a> {
     snapshot: Option<gtk::Snapshot>,

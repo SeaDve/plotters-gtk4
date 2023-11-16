@@ -5,7 +5,7 @@ use plotters_backend::{
     BackendColor, BackendCoord, BackendStyle, BackendTextStyle, DrawingBackend, DrawingErrorKind,
 };
 
-use crate::snapshot::SnapshotBackend;
+use crate::common;
 
 mod imp {
     use std::cell::{OnceCell, RefCell};
@@ -176,12 +176,8 @@ impl<'a> PaintableBackend<'a> {
     }
 
     #[inline]
-    fn inner(&self) -> SnapshotBackend<'_> {
-        SnapshotBackend::from_parts(
-            self.snapshot.as_ref().expect("backend was not prepared"),
-            self.layout.clone(),
-            self.size,
-        )
+    fn snapshot(&self) -> &gtk::Snapshot {
+        self.snapshot.as_ref().expect("backend was not prepared")
     }
 }
 
@@ -221,7 +217,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         point: BackendCoord,
         color: BackendColor,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().draw_pixel(point, color)
+        common::draw_pixel(self.snapshot(), point, color)
     }
 
     #[inline]
@@ -231,7 +227,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         to: BackendCoord,
         style: &S,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().draw_line(from, to, style)
+        common::draw_line(self.snapshot(), from, to, style)
     }
 
     #[inline]
@@ -242,8 +238,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         style: &S,
         fill: bool,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner()
-            .draw_rect(upper_left, bottom_right, style, fill)
+        common::draw_rect(self.snapshot(), upper_left, bottom_right, style, fill)
     }
 
     #[inline]
@@ -252,7 +247,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         raw_path: I,
         style: &S,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().draw_path(raw_path, style)
+        common::draw_path(self.snapshot(), raw_path, style)
     }
 
     #[inline]
@@ -261,7 +256,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         vert: I,
         style: &S,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().fill_polygon(vert, style)
+        common::fill_polygon(self.snapshot(), vert, style)
     }
 
     #[inline]
@@ -272,7 +267,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         style: &S,
         fill: bool,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().draw_circle(center, radius, style, fill)
+        common::draw_circle(self.snapshot(), center, radius, style, fill)
     }
 
     #[inline]
@@ -281,7 +276,7 @@ impl DrawingBackend for PaintableBackend<'_> {
         text: &str,
         style: &TStyle,
     ) -> Result<(u32, u32), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().estimate_text_size(text, style)
+        common::estimate_text_size(&self.layout, text, style)
     }
 
     #[inline]
@@ -291,16 +286,6 @@ impl DrawingBackend for PaintableBackend<'_> {
         style: &TStyle,
         pos: BackendCoord,
     ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().draw_text(text, style, pos)
-    }
-
-    #[inline]
-    fn blit_bitmap(
-        &mut self,
-        pos: BackendCoord,
-        (iw, ih): (u32, u32),
-        src: &[u8],
-    ) -> Result<(), DrawingErrorKind<Self::ErrorType>> {
-        self.inner().blit_bitmap(pos, (iw, ih), src)
+        common::draw_text(self.snapshot(), &self.layout, text, style, pos)
     }
 }

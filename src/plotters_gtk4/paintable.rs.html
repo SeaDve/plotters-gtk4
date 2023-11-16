@@ -289,21 +289,6 @@
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
 <a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::Infallible;
 
 <span class="kw">use </span>gtk::{gdk, glib, graphene::Rect, gsk, pango, prelude::<span class="kw-2">*</span>, subclass::prelude::<span class="kw-2">*</span>};
@@ -311,7 +296,7 @@
     BackendColor, BackendCoord, BackendStyle, BackendTextStyle, DrawingBackend, DrawingErrorKind,
 };
 
-<span class="kw">use </span><span class="kw">crate</span>::snapshot::SnapshotBackend;
+<span class="kw">use </span><span class="kw">crate</span>::common;
 
 <span class="kw">mod </span>imp {
     <span class="kw">use </span>std::cell::{OnceCell, RefCell};
@@ -482,12 +467,8 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SnapshotBackend&lt;<span class="lifetime">&#39;_</span>&gt; {
-        SnapshotBackend::from_parts(
-            <span class="self">self</span>.snapshot.as_ref().expect(<span class="string">&quot;backend was not prepared&quot;</span>),
-            <span class="self">self</span>.layout.clone(),
-            <span class="self">self</span>.size,
-        )
+    </span><span class="kw">fn </span>snapshot(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>gtk::Snapshot {
+        <span class="self">self</span>.snapshot.as_ref().expect(<span class="string">&quot;backend was not prepared&quot;</span>)
     }
 }
 
@@ -527,7 +508,7 @@
         point: BackendCoord,
         color: BackendColor,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().draw_pixel(point, color)
+        common::draw_pixel(<span class="self">self</span>.snapshot(), point, color)
     }
 
     <span class="attr">#[inline]
@@ -537,7 +518,7 @@
         to: BackendCoord,
         style: <span class="kw-2">&amp;</span>S,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().draw_line(from, to, style)
+        common::draw_line(<span class="self">self</span>.snapshot(), from, to, style)
     }
 
     <span class="attr">#[inline]
@@ -548,8 +529,7 @@
         style: <span class="kw-2">&amp;</span>S,
         fill: bool,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner()
-            .draw_rect(upper_left, bottom_right, style, fill)
+        common::draw_rect(<span class="self">self</span>.snapshot(), upper_left, bottom_right, style, fill)
     }
 
     <span class="attr">#[inline]
@@ -558,7 +538,7 @@
         raw_path: I,
         style: <span class="kw-2">&amp;</span>S,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().draw_path(raw_path, style)
+        common::draw_path(<span class="self">self</span>.snapshot(), raw_path, style)
     }
 
     <span class="attr">#[inline]
@@ -567,7 +547,7 @@
         vert: I,
         style: <span class="kw-2">&amp;</span>S,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().fill_polygon(vert, style)
+        common::fill_polygon(<span class="self">self</span>.snapshot(), vert, style)
     }
 
     <span class="attr">#[inline]
@@ -578,7 +558,7 @@
         style: <span class="kw-2">&amp;</span>S,
         fill: bool,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().draw_circle(center, radius, style, fill)
+        common::draw_circle(<span class="self">self</span>.snapshot(), center, radius, style, fill)
     }
 
     <span class="attr">#[inline]
@@ -587,7 +567,7 @@
         text: <span class="kw-2">&amp;</span>str,
         style: <span class="kw-2">&amp;</span>TStyle,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(u32, u32), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().estimate_text_size(text, style)
+        common::estimate_text_size(<span class="kw-2">&amp;</span><span class="self">self</span>.layout, text, style)
     }
 
     <span class="attr">#[inline]
@@ -597,17 +577,7 @@
         style: <span class="kw-2">&amp;</span>TStyle,
         pos: BackendCoord,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().draw_text(text, style, pos)
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>blit_bitmap(
-        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        pos: BackendCoord,
-        (iw, ih): (u32, u32),
-        src: <span class="kw-2">&amp;</span>[u8],
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DrawingErrorKind&lt;<span class="self">Self</span>::ErrorType&gt;&gt; {
-        <span class="self">self</span>.inner().blit_bitmap(pos, (iw, ih), src)
+        common::draw_text(<span class="self">self</span>.snapshot(), <span class="kw-2">&amp;</span><span class="self">self</span>.layout, text, style, pos)
     }
 }
 </code></pre></div></section></main></body></html>

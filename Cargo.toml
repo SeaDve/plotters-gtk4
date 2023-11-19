@@ -1,6 +1,6 @@
 [package]
 name = "plotters-gtk4"
-version = "0.3.4"
+version = "0.3.5"
 description = "Plotters GTK4 Backend"
 homepage = "https://github.com/SeaDve/plotters-gtk4"
 repository = "https://github.com/SeaDve/plotters-gtk4"

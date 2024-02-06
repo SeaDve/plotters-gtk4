@@ -10,7 +10,7 @@ use crate::common;
 mod imp {
     use std::cell::{OnceCell, RefCell};
 
-    use gtk::glib::once_cell::sync::Lazy;
+    use once_cell::sync::Lazy;
 
     use super::*;
 

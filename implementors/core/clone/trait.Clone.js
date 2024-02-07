@@ -1,3 +1,0 @@
-(function() {var implementors = {
-"plotters_gtk4":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.74.0/core/clone/trait.Clone.html\" title=\"trait core::clone::Clone\">Clone</a> for <a class=\"struct\" href=\"plotters_gtk4/struct.Paintable.html\" title=\"struct plotters_gtk4::Paintable\">Paintable</a>"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

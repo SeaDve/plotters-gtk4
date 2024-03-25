@@ -8,9 +8,10 @@ use plotters_backend::{
 use crate::common;
 
 mod imp {
-    use std::cell::{OnceCell, RefCell};
-
-    use once_cell::sync::Lazy;
+    use std::{
+        cell::{OnceCell, RefCell},
+        sync::OnceLock,
+    };
 
     use super::*;
 
@@ -30,7 +31,9 @@ mod imp {
 
     impl ObjectImpl for Paintable {
         fn properties() -> &'static [glib::ParamSpec] {
-            static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+
+            PROPERTIES.get_or_init(|| {
                 vec![
                     glib::ParamSpecUInt::builder("width")
                         .maximum(i32::MAX as u32)
@@ -41,9 +44,7 @@ mod imp {
                         .construct_only()
                         .build(),
                 ]
-            });
-
-            PROPERTIES.as_ref()
+            })
         }
 
         fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {

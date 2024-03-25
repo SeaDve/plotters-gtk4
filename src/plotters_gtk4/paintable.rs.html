@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/paintable.rs`."><title>paintable.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="plotters_gtk4" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0 (82e1608df 2023-12-21)" data-channel="1.75.0" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/paintable.rs`."><title>paintable.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="plotters_gtk4" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../plotters_gtk4/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -289,6 +291,7 @@
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
 <a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::Infallible;
 
 <span class="kw">use </span>gtk::{gdk, glib, graphene::Rect, gsk, pango, prelude::<span class="kw-2">*</span>, subclass::prelude::<span class="kw-2">*</span>};
@@ -299,9 +302,10 @@
 <span class="kw">use </span><span class="kw">crate</span>::common;
 
 <span class="kw">mod </span>imp {
-    <span class="kw">use </span>std::cell::{OnceCell, RefCell};
-
-    <span class="kw">use </span>once_cell::sync::Lazy;
+    <span class="kw">use </span>std::{
+        cell::{OnceCell, RefCell},
+        sync::OnceLock,
+    };
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -314,36 +318,36 @@
 
     <span class="attr">#[glib::object_subclass]
     </span><span class="kw">impl </span>ObjectSubclass <span class="kw">for </span>Paintable {
-        <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;PlottersGtk4Paintable&quot;</span>;
+        <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"PlottersGtk4Paintable"</span>;
         <span class="kw">type </span>Type = <span class="kw">super</span>::Paintable;
         <span class="kw">type </span>Interfaces = (gdk::Paintable,);
     }
 
     <span class="kw">impl </span>ObjectImpl <span class="kw">for </span>Paintable {
-        <span class="kw">fn </span>properties() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[glib::ParamSpec] {
-            <span class="kw">static </span>PROPERTIES: Lazy&lt;Vec&lt;glib::ParamSpec&gt;&gt; = Lazy::new(|| {
+        <span class="kw">fn </span>properties() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[glib::ParamSpec] {
+            <span class="kw">static </span>PROPERTIES: OnceLock&lt;Vec&lt;glib::ParamSpec&gt;&gt; = OnceLock::new();
+
+            PROPERTIES.get_or_init(|| {
                 <span class="macro">vec!</span>[
-                    glib::ParamSpecUInt::builder(<span class="string">&quot;width&quot;</span>)
+                    glib::ParamSpecUInt::builder(<span class="string">"width"</span>)
                         .maximum(i32::MAX <span class="kw">as </span>u32)
                         .construct_only()
                         .build(),
-                    glib::ParamSpecUInt::builder(<span class="string">&quot;height&quot;</span>)
+                    glib::ParamSpecUInt::builder(<span class="string">"height"</span>)
                         .maximum(i32::MAX <span class="kw">as </span>u32)
                         .construct_only()
                         .build(),
                 ]
-            });
-
-            PROPERTIES.as_ref()
+            })
         }
 
         <span class="kw">fn </span>set_property(<span class="kw-2">&amp;</span><span class="self">self</span>, _id: usize, value: <span class="kw-2">&amp;</span>glib::Value, pspec: <span class="kw-2">&amp;</span>glib::ParamSpec) {
             <span class="kw">match </span>pspec.name() {
-                <span class="string">&quot;width&quot; </span>=&gt; {
+                <span class="string">"width" </span>=&gt; {
                     <span class="kw">let </span>width = value.get().unwrap();
                     <span class="self">self</span>.width.set(width).unwrap();
                 }
-                <span class="string">&quot;height&quot; </span>=&gt; {
+                <span class="string">"height" </span>=&gt; {
                     <span class="kw">let </span>height = value.get().unwrap();
                     <span class="self">self</span>.height.set(height).unwrap();
                 }
@@ -353,8 +357,8 @@
 
         <span class="kw">fn </span>property(<span class="kw-2">&amp;</span><span class="self">self</span>, _id: usize, pspec: <span class="kw-2">&amp;</span>glib::ParamSpec) -&gt; glib::Value {
             <span class="kw">match </span>pspec.name() {
-                <span class="string">&quot;width&quot; </span>=&gt; <span class="self">self</span>.obj().width().into(),
-                <span class="string">&quot;height&quot; </span>=&gt; <span class="self">self</span>.obj().height().into(),
+                <span class="string">"width" </span>=&gt; <span class="self">self</span>.obj().width().into(),
+                <span class="string">"height" </span>=&gt; <span class="self">self</span>.obj().height().into(),
                 <span class="kw">_ </span>=&gt; <span class="macro">unimplemented!</span>(),
             }
         }
@@ -411,8 +415,8 @@
     <span class="doccomment">/// Creates a new paintable with the given width and height.
     </span><span class="kw">pub fn </span>new((w, h): (u32, u32)) -&gt; <span class="self">Self </span>{
         glib::Object::builder()
-            .property(<span class="string">&quot;width&quot;</span>, w)
-            .property(<span class="string">&quot;height&quot;</span>, h)
+            .property(<span class="string">"width"</span>, w)
+            .property(<span class="string">"height"</span>, h)
             .build()
     }
 
@@ -444,17 +448,17 @@
 
 <span class="doccomment">/// Backend that draws to an object that implements [`gdk::Paintable`].
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>PaintableBackend&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span>PaintableBackend&lt;<span class="lifetime">'a</span>&gt; {
     snapshot: <span class="prelude-ty">Option</span>&lt;gtk::Snapshot&gt;,
-    paintable: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Paintable,
+    paintable: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Paintable,
     layout: pango::Layout,
     size: (u32, u32),
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PaintableBackend&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; PaintableBackend&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Creates a new drawing backend backed with an object that implements
     /// [`gdk::Paintable`].
-    </span><span class="kw">pub fn </span>new(paintable: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Paintable) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>new(paintable: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Paintable) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>font_map = pangocairo::FontMap::default();
         <span class="kw">let </span>context = font_map.create_context();
         <span class="kw">let </span>layout = pango::Layout::new(<span class="kw-2">&amp;</span>context);
@@ -468,11 +472,11 @@
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>snapshot(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>gtk::Snapshot {
-        <span class="self">self</span>.snapshot.as_ref().expect(<span class="string">&quot;backend was not prepared&quot;</span>)
+        <span class="self">self</span>.snapshot.as_ref().expect(<span class="string">"backend was not prepared"</span>)
     }
 }
 
-<span class="kw">impl </span>Drop <span class="kw">for </span>PaintableBackend&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Drop <span class="kw">for </span>PaintableBackend&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(snapshot) = <span class="self">self</span>.snapshot.take() {
             <span class="self">self</span>.paintable.set_node(snapshot.to_node());
@@ -480,7 +484,7 @@
     }
 }
 
-<span class="kw">impl </span>DrawingBackend <span class="kw">for </span>PaintableBackend&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>DrawingBackend <span class="kw">for </span>PaintableBackend&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">type </span>ErrorType = Infallible;
 
     <span class="attr">#[inline]

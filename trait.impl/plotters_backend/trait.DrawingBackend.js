@@ -1,3 +1,3 @@
 (function() {var implementors = {
-"plotters_gtk4":[["impl&lt;'a&gt; DrawingBackend for <a class=\"struct\" href=\"plotters_gtk4/struct.SnapshotBackend.html\" title=\"struct plotters_gtk4::SnapshotBackend\">SnapshotBackend</a>&lt;'a&gt;"],["impl DrawingBackend for <a class=\"struct\" href=\"plotters_gtk4/struct.PaintableBackend.html\" title=\"struct plotters_gtk4::PaintableBackend\">PaintableBackend</a>&lt;'_&gt;"]]
+"plotters_gtk4":[["impl DrawingBackend for <a class=\"struct\" href=\"plotters_gtk4/struct.PaintableBackend.html\" title=\"struct plotters_gtk4::PaintableBackend\">PaintableBackend</a>&lt;'_&gt;"],["impl&lt;'a&gt; DrawingBackend for <a class=\"struct\" href=\"plotters_gtk4/struct.SnapshotBackend.html\" title=\"struct plotters_gtk4::SnapshotBackend\">SnapshotBackend</a>&lt;'a&gt;"]]
 };if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

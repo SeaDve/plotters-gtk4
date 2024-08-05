@@ -13,6 +13,6 @@ license = "MIT"
 edition = "2021"
 
 [dependencies]
-gtk = { version = "0.8", package = "gtk4", features = ["v4_14"] }
-pangocairo = "0.19"
+gtk = { version = "0.9", package = "gtk4", features = ["v4_14"] }
+pangocairo = "0.20"
 plotters-backend = "0.3"

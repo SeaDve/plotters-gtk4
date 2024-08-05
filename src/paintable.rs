@@ -1,6 +1,7 @@
 use std::convert::Infallible;
 
 use gtk::{gdk, glib, graphene::Rect, gsk, pango, prelude::*, subclass::prelude::*};
+use pangocairo::prelude::*;
 use plotters_backend::{
     BackendColor, BackendCoord, BackendStyle, BackendTextStyle, DrawingBackend, DrawingErrorKind,
 };

@@ -1,0 +1,9 @@
+(function() {
+    var implementors = Object.fromEntries([["plotters_gtk4",[["impl UnsafeUnpin for <a class=\"struct\" href=\"plotters_gtk4/struct.Paintable.html\" title=\"struct plotters_gtk4::Paintable\">Paintable</a>",1,["plotters_gtk4::paintable::Paintable"]],["impl&lt;'a&gt; UnsafeUnpin for <a class=\"struct\" href=\"plotters_gtk4/struct.PaintableBackend.html\" title=\"struct plotters_gtk4::PaintableBackend\">PaintableBackend</a>&lt;'a&gt;",1,["plotters_gtk4::paintable::PaintableBackend"]],["impl&lt;'a&gt; UnsafeUnpin for <a class=\"struct\" href=\"plotters_gtk4/struct.SnapshotBackend.html\" title=\"struct plotters_gtk4::SnapshotBackend\">SnapshotBackend</a>&lt;'a&gt;",1,["plotters_gtk4::snapshot::SnapshotBackend"]]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":57,"fragment_lengths":[674]}

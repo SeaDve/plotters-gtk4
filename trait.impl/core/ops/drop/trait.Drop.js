@@ -1,3 +1,9 @@
-(function() {var implementors = {
-"plotters_gtk4":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.80.1/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"plotters_gtk4/struct.PaintableBackend.html\" title=\"struct plotters_gtk4::PaintableBackend\">PaintableBackend</a>&lt;'_&gt;"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
+(function() {
+    var implementors = Object.fromEntries([["plotters_gtk4",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.89.0/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"plotters_gtk4/struct.PaintableBackend.html\" title=\"struct plotters_gtk4::PaintableBackend\">PaintableBackend</a>&lt;'_&gt;"]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":57,"fragment_lengths":[322]}
